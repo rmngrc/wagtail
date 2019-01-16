@@ -4,7 +4,7 @@ from .base import *
 DEBUG = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'tw_70xzncg7uc3==41nfxe$r9!l304+u^p)&8*qb0nd8*8si-%'
+SECRET_KEY = 'vnim$0(gecx&k#ztddq^&3&pmft*6)(1to5g#s-7h!r6n3t%8!'
 
 # SECURITY WARNING: define the correct hosts in production!
 ALLOWED_HOSTS = ['*'] 
@@ -16,7 +16,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'HOST': 'db',
+        'HOST': 'db-fr',
         'PORT': 5432,
     }
 }
