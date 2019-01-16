@@ -2,24 +2,30 @@ version: '3.7'
 services:
 
   db-fr:
-    container_name: cms_db_fr
-    image: postgres:latest
-    networks:
-      - postgres_network
+    image: mysql:5.7
+    container_name: db_fr
+    environment:
+      MYSQL_DATABASE: dev-fr
+      MYSQL_USER: dev-fr
+      MYSQL_PASSWORD: dev-fr
+      MYSQL_ROOT_PASSWORD: dev-fr
     ports:
-      - 5432:5432
+      - "3310:3306"
     volumes:
-      - postgres_data_fr:/var/lib/postgresql/data/
+      - db_fr:/var/lib/mysql
 
   db-uk:
-    container_name: cms_db_uk
-    image: postgres:latest
-    networks:
-      - postgres_network
+    image: mysql:5.7
+    container_name: db_uk
+    environment:
+      MYSQL_DATABASE: dev-uk
+      MYSQL_USER: dev-uk
+      MYSQL_PASSWORD: dev-uk
+      MYSQL_ROOT_PASSWORD: dev-uk
     ports:
-      - 5433:5432
+      - "3311:3306"
     volumes:
-      - postgres_data_uk:/var/lib/postgresql/data/
+      - db_uk:/var/lib/mysql
 
   web-fr:
     build:
@@ -31,8 +37,6 @@ services:
       - db-fr
     environment:
       ZAVA_COUNTRY: "fr"
-    networks:
-      - postgres_network
     ports:
       - 8000:8000
     volumes:
@@ -48,17 +52,11 @@ services:
       - db-uk
     environment:
       ZAVA_COUNTRY: "uk"
-    networks:
-      - postgres_network
     ports:
       - 8001:8001
     volumes:
       - .:/code
 
-networks:
-  postgres_network:
-    driver: bridge
-
 volumes:
-  postgres_data_uk:
-  postgres_data_fr:
+  db_fr:
+  db_uk:
