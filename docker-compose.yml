@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  db:
+    container_name: cms_db
+    image: postgres:11.1-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: gunicorn web.wsgi:application --bind 0.0.0.0:8000 --workers 3
+    container_name: cms_web
+    depends_on:
+      - db
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/code
+
+volumes:
+  postgres_data:
