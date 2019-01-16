@@ -2,6 +2,7 @@ FROM python:3.7
 
 # Set environment varibles
 ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
 ENV DJANGO_ENV dev
 
 # Install any needed packages specified in requirements.txt
