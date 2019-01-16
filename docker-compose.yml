@@ -1,24 +1,62 @@
 version: '3.7'
-
 services:
-  db:
-    container_name: cms_db
-    image: postgres:11.1-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
 
-  web:
+  db-fr:
+    image: mysql:5.7
+    container_name: db_fr
+    environment:
+      MYSQL_DATABASE: dev-fr
+      MYSQL_USER: dev-fr
+      MYSQL_PASSWORD: dev-fr
+      MYSQL_ROOT_PASSWORD: dev-fr
+    ports:
+      - "3310:3306"
+    volumes:
+      - db_fr:/var/lib/mysql
+
+  db-uk:
+    image: mysql:5.7
+    container_name: db_uk
+    environment:
+      MYSQL_DATABASE: dev-uk
+      MYSQL_USER: dev-uk
+      MYSQL_PASSWORD: dev-uk
+      MYSQL_ROOT_PASSWORD: dev-uk
+    ports:
+      - "3311:3306"
+    volumes:
+      - db_uk:/var/lib/mysql
+
+  web-fr:
     build:
       context: .
       dockerfile: Dockerfile
-    command: gunicorn web.wsgi:application --bind 0.0.0.0:8000 --workers 3
-    container_name: cms_web
+    command: python manage.py runserver 0.0.0.0:8000
+    container_name: web_fr
     depends_on:
-      - db
+      - db-fr
+    environment:
+      ZAVA_COUNTRY: "fr"
     ports:
       - 8000:8000
     volumes:
       - .:/code
 
+  web-uk:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8001
+    container_name: web_uk
+    depends_on:
+      - db-uk
+    environment:
+      ZAVA_COUNTRY: "uk"
+    ports:
+      - 8001:8001
+    volumes:
+      - .:/code
+
 volumes:
-  postgres_data:
+  db_fr:
+  db_uk:

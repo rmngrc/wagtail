@@ -3,7 +3,8 @@ import os
 import sys
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web.settings.dev")
+    print("LOCALE: " + os.environ['ZAVA_COUNTRY'])
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "locales.%s.web.settings.dev" % os.environ['ZAVA_COUNTRY'])
 
     from django.core.management import execute_from_command_line
 
