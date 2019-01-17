@@ -84,10 +84,10 @@ function py_run() {
         error_msg_and_exit "No command provided. Aborting."
     fi
 
-    if [[ $2 == "" ]]; then
+    if [[ $3 == "" ]]; then
         LOCALES=("${LOCALES_LIST[@]}")
     else
-        LOCALES=("$2")
+        LOCALES=("$3")
     fi
 
     for LOCALE in "${LOCALES[@]}"; do
