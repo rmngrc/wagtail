@@ -15,6 +15,7 @@ import os
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
+ROOT_DIR = os.path.dirname(os.path.dirname(BASE_DIR))
 
 
 # Quick-start development settings - unsuitable for production
@@ -24,10 +25,12 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # Application definition
 
 INSTALLED_APPS = [
+    'base.services',
     'locales.fr.home',
     'locales.fr.search',
 
     'wagtail.contrib.forms',
+    'wagtail.contrib.modeladmin',
     'wagtail.contrib.redirects',
     'wagtail.contrib.styleguide',
     'wagtail.embeds',
@@ -71,6 +74,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(PROJECT_DIR, 'templates'),
+            os.path.join(ROOT_DIR, 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -141,6 +145,7 @@ STATICFILES_FINDERS = [
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, 'static'),
+    os.path.join(ROOT_DIR, 'static'),
 ]
 
 # ManifestStaticFilesStorage is recommended in production, to prevent outdated

@@ -47,7 +47,9 @@ function usage() {
     echo "   help                          Prints this message"
     echo ""
     echo "Build commands:"
+    echo "   clean                         Cleans all services stated in the docker-compose.yml file."
     echo "   setup                         Runs the initial setup. This may take a while."
+    echo "   build                         Re-builds all services stated in the docker-compose.yml file."
     echo "   run                           Runs the project for all locales."
     echo ""
     echo "Development commands:"
@@ -65,11 +67,25 @@ function project_dir() {
   echo "$(git rev-parse --show-toplevel)"
 }
 
+function clean() {
+    docker-compose rm -f
+}
+
 # Sets up your environment for local development.
 function setup() {
 	[[ -d ".env" ]] || python3 -m venv .env
 	source ".env/bin/activate"
-	pip install -r requirements.txt
+	.env/bin/pip install -r requirements.txt
+
+    clean
+    build
+}
+
+# Builds all containers again
+function build() {
+    docker-compose build --no-cache
+    py_run "" "migrate"
+    py_run "" "createsuperuser"
 }
 
 # Runs the project.
